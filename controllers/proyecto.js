@@ -1,0 +1,105 @@
+const { response } = require('express');
+const { Proyecto } = require('../models');
+const { Evaluacion } = require('../models');
+
+
+const obtenerProyectos = async(req, res = response ) => {
+
+   
+    const proyecto = await Proyecto.find({}).populate('usuario','nombre')
+
+    res.json({
+        
+        proyecto
+    });
+}
+
+const obtenerEvaluaciones = async(req, res = response ) => {
+
+    const evaluacion = await  
+        Evaluacion.find({}).populate('proyecto')
+        // .populate({
+        //     path:'proyecto',
+        //     select:'usuario'
+        // })
+                                            // .populate('usuario','nombre')
+    res.json({
+        evaluacion,
+
+    });
+}
+
+
+const crearProyectos = async(req, res = response) => {
+    
+    const { ...body } = req.body;
+
+    // Guardar en BD
+    const data = {
+        ...body,
+        usuario: req.usuario._id
+    }
+
+    const proyecto = new Proyecto(data)
+
+   const {id} =  await proyecto.save()
+   console.log(id);
+
+    res.status(201).json(proyecto);
+    return id;
+}
+
+const crearEvaluacion = async(req, res = response ) => {
+
+    const {  nombre, autor } = req.body;  
+    // Guardar en BD
+    const data1 = {
+        nombre,
+        autor,
+        usuario: req.usuario._id,
+
+    } 
+
+    const proyecto = new Proyecto(data1)
+
+    const {id} =  await proyecto.save()
+ 
+     res.status(201).json(proyecto);
+
+    // --------------------------------> evaluaciones
+    const {check1,check2,check3,check4,check5,check6,check7,check8,check9,check10,check11,check12,check13,check14,check15, valor} = req.body 
+     const data2 = {
+        proyecto: id,
+        check1: check1,
+        check2: check2,
+        check3: check3,
+        check4: check4,
+        check5: check5,
+        check6: check6,
+        check7: check7,
+        check8: check8,
+        check9: check9,
+        check10: check10,
+        check11: check11,
+        check12: check12,
+        check13: check13,
+        check14: check14,
+        check15: check15,
+        valor:valor
+    } 
+
+    const evaluacion = new Evaluacion(data2)
+
+    await evaluacion.save()
+    res.status(201).json(evaluacion);
+
+}
+
+module.exports = {
+    
+    obtenerProyectos,
+    crearProyectos,
+    crearEvaluacion,
+    obtenerEvaluaciones
+
+}
