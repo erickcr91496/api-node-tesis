@@ -1,6 +1,7 @@
 const { response } = require('express');
-const { Proyecto } = require('../models');
+const { Proyecto,  } = require('../models');
 const { Evaluacion } = require('../models');
+const usuario = require('../models/usuario');
 
 
 const obtenerProyectos = async(req, res = response ) => {
@@ -25,10 +26,27 @@ const obtenerEvaluaciones = async(req, res = response ) => {
                                             // .populate('usuario','nombre')
     res.json({
         evaluacion,
+    }
+    );
+}
+const getEvaluacionesByUser = async(req, res = response ) => {
+    const { id } = req.params;
+    console.log('uid params:'+id)
+    const proyectoUser = await Proyecto.find({usuario:id})
+     const evaluacion = await Evaluacion.find({}) 
+
+     .populate({
+         path:'proyecto',
+         match:{usuario:id}
+     })
+     //  .populate('proyecto','usuario')
+     const evaluaciones = evaluacion.filter(record => record.proyecto);
+
+    res.json({
+        evaluaciones,
 
     });
 }
-
 
 const crearProyectos = async(req, res = response) => {
     
@@ -59,6 +77,9 @@ const crearEvaluacion = async(req, res = response ) => {
         usuario: req.usuario._id,
 
     } 
+    // data1.nombre =nombre.toUpperCase();
+    // data1.autor =autor.toUpperCase();
+
 
     const proyecto = new Proyecto(data1)
 
@@ -100,6 +121,7 @@ module.exports = {
     obtenerProyectos,
     crearProyectos,
     crearEvaluacion,
-    obtenerEvaluaciones
+    obtenerEvaluaciones,
+    getEvaluacionesByUser,
 
 }
