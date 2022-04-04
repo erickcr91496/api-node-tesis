@@ -47,7 +47,18 @@ const getEvaluacionesByUser = async(req, res = response ) => {
 
     });
 }
+const getEvaluacion = async(req, res = response ) => {
+    const { id } = req.params;
+     const evaluacion = await Evaluacion.findById(id) 
+.populate('proyecto')
+     //  .populate('proyecto','usuario')
+    // const evaluaciones = evaluacion.filter(record => record.proyecto);
 
+    res.json({
+        evaluacion,
+
+    });
+}
 const crearProyectos = async(req, res = response) => {
     
     const { ...body } = req.body;
@@ -79,7 +90,6 @@ const crearEvaluacion = async(req, res = response ) => {
     } 
     // data1.nombre =nombre.toUpperCase();
     // data1.autor =autor.toUpperCase();
-
 
     const proyecto = new Proyecto(data1)
 
@@ -123,5 +133,6 @@ module.exports = {
     crearEvaluacion,
     obtenerEvaluaciones,
     getEvaluacionesByUser,
+    getEvaluacion
 
 }

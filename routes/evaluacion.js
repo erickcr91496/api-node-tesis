@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 
 const { 
-       obtenerEvaluaciones , getEvaluacionesByUser  } = require('../controllers/proyecto');
+       obtenerEvaluaciones , getEvaluacionesByUser, getEvaluacion } = require('../controllers/proyecto');
 
 const router = Router();
 
@@ -13,6 +13,7 @@ const router = Router();
 //  Obtener todas las categorias - publico
 router.get('/', obtenerEvaluaciones );
 router.get('/:id', getEvaluacionesByUser)
+router.get('/detail/:id', getEvaluacion)
 
 
 
