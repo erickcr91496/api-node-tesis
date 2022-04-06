@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 
 const { 
-       obtenerEvaluaciones , getEvaluacionesByUser, getEvaluacion } = require('../controllers/proyecto');
+       obtenerEvaluaciones , getEvaluacionesByUser, getEvaluacion, actualizarEvaluacion } = require('../controllers/proyecto');
 
 const router = Router();
 
@@ -14,6 +14,7 @@ const router = Router();
 router.get('/', obtenerEvaluaciones );
 router.get('/:id', getEvaluacionesByUser)
 router.get('/detail/:id', getEvaluacion)
+router.put('/:id', actualizarEvaluacion)
 
 
 

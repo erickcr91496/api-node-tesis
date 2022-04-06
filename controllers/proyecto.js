@@ -125,12 +125,67 @@ const crearEvaluacion = async(req, res = response ) => {
     res.status(201).json(evaluacion);
 
 }
+const actualizarEvaluacion = async(req, res = response ) => {
+    const { id } = req.params;
+
+    const {  proyecto:proyect } = req.body;  
+    const {nombre,autor} = proyect
+
+    const data1 = {
+        nombre,
+        autor,
+        usuario: req.usuario._id,
+        fecha: new Date()
+    } 
+    const evaluacionData = await Evaluacion.findById(id) 
+    .populate('proyecto')
+
+    const {proyecto} =  evaluacionData
+    const idProyecto = proyecto
+    const proyectoData = await Proyecto.findByIdAndUpdate(idProyecto,data1,
+        {new:true})
+ 
+     res.status(201).json(proyectoData);
+
+    // --------------------------------> evaluaciones
+    const {check1,check2,check3,check4,check5,check6,
+        check7,check8,check9,check10,check11,check12,check13,check14,check15, valor} = req.body 
+     const data2 = {
+        proyecto: idProyecto,
+        check1: check1,
+        check2: check2,
+        check3: check3,
+        check4: check4,
+        check5: check5,
+        check6: check6,
+        check7: check7,
+        check8: check8,
+        check9: check9,
+        check10: check10,
+        check11: check11,
+        check12: check12,
+        check13: check13,
+        check14: check14,
+        check15: check15,
+        valor:valor
+    } 
+
+    const evaluacion = await Evaluacion.findByIdAndUpdate(id,data2,
+        {new:true})
+
+    res.json(evaluacion);
+
+}
+
+
+
 
 module.exports = {
     
     obtenerProyectos,
     crearProyectos,
     crearEvaluacion,
+    actualizarEvaluacion,
     obtenerEvaluaciones,
     getEvaluacionesByUser,
     getEvaluacion

@@ -3,7 +3,7 @@ const { Router } = require('express');
 
 const { 
         obtenerProyectos, ob,
-    crearEvaluacion, crearProyectos, obtenerEvaluaciones    } = require('../controllers/proyecto');
+    crearEvaluacion, crearProyectos, obtenerEvaluaciones, actualizarEvaluacion    } = require('../controllers/proyecto');
 const { validarJWT, validarCampos } = require('../middlewares');
 
 const router = Router();
@@ -21,5 +21,9 @@ router.post('/', [
     
 ],
 crearEvaluacion );
+router.put('/:id',[
+    validarJWT,
+    validarCampos, 
+], actualizarEvaluacion)
 
 module.exports = router;
