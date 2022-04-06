@@ -145,7 +145,7 @@ const actualizarEvaluacion = async(req, res = response ) => {
     const proyectoData = await Proyecto.findByIdAndUpdate(idProyecto,data1,
         {new:true})
  
-     res.status(201).json(proyectoData);
+    //  res.status(201).json(proyectoData);
 
     // --------------------------------> evaluaciones
     const {check1,check2,check3,check4,check5,check6,
