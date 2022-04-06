@@ -95,7 +95,6 @@ const crearEvaluacion = async(req, res = response ) => {
 
     const {id} =  await proyecto.save()
  
-     res.status(201).json(proyecto);
 
     // --------------------------------> evaluaciones
     const {check1,check2,check3,check4,check5,check6,check7,check8,check9,check10,check11,check12,check13,check14,check15, valor} = req.body 
@@ -123,7 +122,7 @@ const crearEvaluacion = async(req, res = response ) => {
 
     await evaluacion.save()
     res.status(201).json(evaluacion);
-
+    return
 }
 const actualizarEvaluacion = async(req, res = response ) => {
     const { id } = req.params;
